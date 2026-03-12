@@ -229,6 +229,11 @@ trigger_prune() {
 # =============================================================================
 # DISCORD NOTIFICATION
 # =============================================================================
+
+# Escape backslashes and double-quotes for embedding in JSON strings.
+# Uses printf to avoid echo interpreting values that start with '-'.
+_esc() { printf '%s' "$1" | sed 's/\\/\\\\/g; s/"/\\"/g'; }
+
 discord_notify() {
     local title="$1"
     local description="$2"
@@ -243,8 +248,6 @@ discord_notify() {
 
     local timestamp
     timestamp="$(date -u '+%Y-%m-%dT%H:%M:%SZ')"
-
-    _esc() { echo "$1" | sed 's/\\/\\\\/g; s/"/\\"/g'; }
 
     local prune_scope
     prune_scope="$([ "$PRUNE_ALL_IMAGES" = "true" ] && echo "All unused" || echo "Dangling only")"
