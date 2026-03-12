@@ -1,0 +1,83 @@
+# =============================================================================
+# portainer-prune.conf.example
+#
+# Copy this file to portainer-prune.conf and fill in your real values.
+# portainer-prune.conf is excluded from git via .gitignore -- never commit it.
+# =============================================================================
+
+
+# -----------------------------------------------------------------------------
+# PORTAINER API
+#
+# Generate an API key:
+#   Portainer -> top-right avatar -> My account -> Access tokens -> Add access token
+#
+# Set PORTAINER_TLS_VERIFY=false if Portainer uses a self-signed certificate.
+# -----------------------------------------------------------------------------
+
+PORTAINER_BASE_URL=https://portainer.yourdomain.com:9443
+PORTAINER_API_KEY=ptr_xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+PORTAINER_TLS_VERIFY=true
+
+
+# -----------------------------------------------------------------------------
+# PRUNE SETTINGS
+#
+# PRUNE_ALL_IMAGES:
+#   false  Dangling images only -- untagged/orphaned layers    (safe default)
+#   true   All unused images -- anything not used by a container  (aggressive)
+#
+# PORTAINER_ENDPOINT__<hostname>:
+#   Map each host's system hostname to its Portainer endpoint ID.
+#   Run `hostname` on each host to confirm the exact name.
+#   Non-alphanumeric characters become _ (e.g. nas-01 -> PORTAINER_ENDPOINT__nas_01).
+#
+#   Find endpoint IDs:
+#     Portainer -> Environments -> click an environment ->
+#     note the number in the URL: /#!/endpoints/2/docker/... -> ID is 2
+# -----------------------------------------------------------------------------
+
+PRUNE_ENABLED=true
+PRUNE_ALL_IMAGES=false
+
+PORTAINER_ENDPOINT__host1=1
+PORTAINER_ENDPOINT__host2=2
+PORTAINER_ENDPOINT__host3=3
+
+
+# -----------------------------------------------------------------------------
+# LOGGING
+# -----------------------------------------------------------------------------
+
+LOG_FILE=/opt/portainer-prune/logs/portainer-prune.log
+MAX_LOG_SIZE_KB=10240
+MAX_LOG_ARCHIVES=5
+
+
+# -----------------------------------------------------------------------------
+# RETRY
+# -----------------------------------------------------------------------------
+
+RETRY_ATTEMPTS=3
+RETRY_DELAY=5
+
+
+# -----------------------------------------------------------------------------
+# DRY RUN
+# Set to true to log what would happen without making any API calls.
+# Can also be overridden at runtime: DRY_RUN=true sh portainer-prune.sh
+# -----------------------------------------------------------------------------
+
+DRY_RUN_CONFIG=false
+
+
+# -----------------------------------------------------------------------------
+# DISCORD NOTIFICATIONS
+#
+# To get a webhook URL:
+#   Discord server -> Settings -> Integrations -> Webhooks -> New Webhook -> Copy URL
+# -----------------------------------------------------------------------------
+
+DISCORD_ENABLED=false
+DISCORD_WEBHOOK_URL=https://discord.com/api/webhooks/YOUR_WEBHOOK_ID/YOUR_WEBHOOK_TOKEN
+DISCORD_USERNAME=Portainer

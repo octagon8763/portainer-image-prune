@@ -1,0 +1,4 @@
+portainer-prune.conf
+logs/
+*.log
+*.log.*.gz
